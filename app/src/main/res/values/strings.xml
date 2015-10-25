@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Hello There!</string>
+
+    <string name="launch_server_mode">Servidor</string>
+    <string name="launch_client_mode">Cliente</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="test_cliente">TEST CLI</string>
+</resources>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/start_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/center_point"
+        android:layout_toLeftOf="@+id/center_point"
+        android:text="@string/launch_server_mode"
+        android:textSize="20sp"
+        android:background="@drawable/cute_button"
+        android:layout_margin="20sp"/>
+
+    <TextView
+        android:id="@+id/center_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/test_client"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20sp"
+        android:textSize="20sp"
+        android:layout_below="@+id/client_mode"
+        android:background="@drawable/cute_button"
+        android:text="@string/test_cliente"
+        android:onClick="testCli"/>
+
+    <Button
+        android:id="@+id/client_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/center_point"
+        android:layout_toEndOf="@+id/center_point"
+        android:layout_margin="20sp"
+        android:textSize="20sp"
+        android:background="@drawable/cute_button"
+        android:text="@string/launch_client_mode"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/test_client"
+        android:layout_marginStart="20sp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginBottom="20sp">
+        <TextView
+            android:id="@+id/log_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
+<!--    android:lyaout_toRightOf="@+id/middle_point"
+        android:lyaout_toEndOf="@+id/middle_point"
+-->
+<!--
+    <TextView
+        android:id="@+id/middle_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/launch_device_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/middle_point"
+        android:layout_toStartOf="@+id/middle_point"
+        android:layout_marginStart="20sp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="20sp"/>
+-->
+</RelativeLayout>
