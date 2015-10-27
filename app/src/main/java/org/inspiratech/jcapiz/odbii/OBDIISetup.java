@@ -14,13 +14,17 @@ import android.util.Log;
 
 import com.github.pires.obd.commands.SpeedCommand;
 import com.github.pires.obd.commands.engine.RPMCommand;
+import com.github.pires.obd.commands.protocol.EchoOffCommand;
+import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
+import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
+import com.github.pires.obd.commands.protocol.TimeoutCommand;
+import com.github.pires.obd.enums.ObdProtocols;
 
 import org.capiz.bluetooth.CustomBluetoothActivity;
 
 public class OBDIISetup extends AsyncTask<String,String,String>{
 
 	private static final String MY_UUID = "00001101-0000-1000-8000-00805F9B34FB";
-	//private static final String TAG = "TUL";
     private BluetoothSocket socket;
     private final BluetoothDevice device;
 	Activity activity;
@@ -55,6 +59,7 @@ public class OBDIISetup extends AsyncTask<String,String,String>{
             socket.connect();
         }catch(IOException e) {
             Log.e("SKULL", "There was an error while establishing Bluetooth connection. Falling back..", e);
+            publishProgress("There was an error while establishing Bluetooth connection. Falling back..\n" + e.getMessage());
             Class<?> clazz = socket.getRemoteDevice().getClass();
             Class<?>[] paramTypes = new Class<?>[]{Integer.TYPE};
             try {
@@ -65,8 +70,19 @@ public class OBDIISetup extends AsyncTask<String,String,String>{
                 socket = sockFallback;
             } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException | IOException e2) {
                 Log.e("SKULL", "Couldn't fallback while establishing Bluetooth connection. Stopping app..", e2);
-                stopActions();
+                result = "Couldn't fallback while establishing Bluetooth connection. Stopping app..\n" + e2.getMessage();
+                //stopActions();
             }
+        }
+        try{
+
+            new EchoOffCommand().run(socket.getInputStream(), socket.getOutputStream());
+            new LineFeedOffCommand().run(socket.getInputStream(), socket.getOutputStream());
+            new TimeoutCommand(0).run(socket.getInputStream(), socket.getOutputStream());
+            new SelectProtocolCommand(ObdProtocols.AUTO).run(socket.getInputStream(), socket.getOutputStream());
+        }catch(IOException | InterruptedException e){
+            e.printStackTrace();
+            publishProgress(e.getMessage());
         }
         try {
             while (!Thread.currentThread().isInterrupted())
@@ -95,8 +111,17 @@ public class OBDIISetup extends AsyncTask<String,String,String>{
 
 	@Override
 	public void onPostExecute(String result){
-		((CustomBluetoothActivity) activity).logMessage(result);
+		publishSomething(result);
 	}
+
+    @Override
+    public void onProgressUpdate(String... args){
+        ((CustomBluetoothActivity) activity).logMessage(args[0]);
+    }
+
+    public void publishSomething(String result){
+        ((CustomBluetoothActivity) activity).logMessage(result);
+    }
 
     public void stopActions(){
     	Thread.currentThread().interrupt();
